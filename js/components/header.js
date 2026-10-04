@@ -2,6 +2,7 @@ import { createElement } from "../dom.js";
 import { createButton, createSoundButton, createThemeToggle } from "../ui-helpers.js";
 import { toggleTheme } from "../theme.js";
 import { playButtonClick, toggleBackgroundMusic, isBackgroundMusicPlaying } from "../audio.js";
+import { renderBoard } from "../game.js";
 
 export function createHeader() {
   const header = createElement("header", "header");
@@ -15,13 +16,26 @@ export function createHeader() {
   const soundButton = createSoundButton();
   const themeToggle = createThemeToggle();
 
+  newGameButton.addEventListener("click", () => {
+    playButtonClick();
+    renderBoard();
+  });
+
+  leaderboardButton.addEventListener("click", () => {
+    playButtonClick();
+    // TODO: открыть попап с таблицей лидеров
+  });
+
   soundButton.addEventListener("click", () => {
     playButtonClick();
     toggleBackgroundMusic();
     updateSoundButton(soundButton);
   });
 
-  themeToggle.addEventListener("click", toggleTheme);
+  themeToggle.addEventListener("click", () => {
+    playButtonClick();
+    toggleTheme();
+  });
 
   actions.append(newGameButton, leaderboardButton, soundButton, themeToggle);
   container.append(heading, actions);

@@ -2,14 +2,18 @@ import { createCard } from "./components/card.js";
 import { playCardFlip } from "./audio.js";
 
 const GAME_BOARD_ID = "game-board";
+const MOVES_COUNTER_ID = "moves-counter";
+const PAIRS_COUNTER_ID = "pairs-counter";
 const PAIRS_COUNT = 8;
 const FLIP_DELAY = 700;
+const PEEK_DURATION = 2000;
 
 let cardImages = [];
 let currentLayout = [];
 
 let openCards = [];
 let matchedPairs = 0;
+let moves = 0;
 let isLocked = false;
 
 export async function loadCardImages() {
@@ -36,7 +40,11 @@ export function renderBoard() {
 
   openCards = [];
   matchedPairs = 0;
+  moves = 0;
   isLocked = false;
+
+  renderCounters();
+  peekAllCards();
 }
 
 export function setupCardFlip() {
@@ -47,6 +55,31 @@ export function setupCardFlip() {
     const card = event.target.closest(".card");
     if (card) flipCard(card);
   });
+}
+
+export function peekAllCards(duration = PEEK_DURATION) {
+  const board = document.getElementById(GAME_BOARD_ID);
+  if (!board) return;
+
+  const cards = board.querySelectorAll(".card");
+  if (!cards.length) return;
+
+  isLocked = true;
+
+  cards.forEach((card) => {
+    card.classList.add("card--flipped");
+    revealCard(card);
+  });
+
+  playCardFlip();
+
+  setTimeout(() => {
+    cards.forEach((card) => {
+      card.classList.remove("card--flipped");
+      hideCard(card);
+    });
+    isLocked = false;
+  }, duration);
 }
 
 function flipCard(card) {
@@ -61,6 +94,9 @@ function flipCard(card) {
 
   if (openCards.length < 2) return;
 
+  moves += 1;
+  renderCounters();
+
   isLocked = true;
   const [firstCard, secondCard] = openCards;
   openCards = [];
@@ -69,18 +105,27 @@ function flipCard(card) {
   const secondImage = secondCard.querySelector(".card__back").dataset.image;
 
   if (firstImage === secondImage) {
-  matchedPairs += 1;
-  isLocked = false;
-    } else {
-  setTimeout(() => {
-    playCardFlip();// ← добавить: звук при закрытии
-    [firstCard, secondCard].forEach((c) => {
-      c.classList.remove("card--flipped");
-      hideCard(c);
-    });
+    matchedPairs += 1;
+    renderCounters();
     isLocked = false;
-  }, FLIP_DELAY);
+  } else {
+    setTimeout(() => {
+      playCardFlip();
+      [firstCard, secondCard].forEach((c) => {
+        c.classList.remove("card--flipped");
+        hideCard(c);
+      });
+      isLocked = false;
+    }, FLIP_DELAY);
+  }
 }
+
+function renderCounters() {
+  const movesEl = document.getElementById(MOVES_COUNTER_ID);
+  const pairsEl = document.getElementById(PAIRS_COUNTER_ID);
+
+  if (movesEl) movesEl.textContent = String(moves);
+  if (pairsEl) pairsEl.textContent = `${matchedPairs} из ${PAIRS_COUNT}`;
 }
 
 function revealCard(card) {
