@@ -103,20 +103,21 @@
   }
 }
 
-@media (max-width: 480px) {
-  .header__actions {
-    flex-wrap: wrap;
-    gap: 0.5rem;
+@media (max-width: 510px) {
+  .header {
+    padding-block: 1rem;
+  }
+
+  .header__container {
+    gap: 0.8rem;
   }
 
   .header__title {
     font-size: 1.8rem;
-    text-align: center;
-    width: 100%;
   }
 
-  .footer__links {
-    flex-direction: column;
-    gap: 0.6rem;
+  .header__actions {
+    justify-content: center;
+    gap: 0.5rem;
   }
 }
