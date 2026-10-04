@@ -1,4 +1,5 @@
 const RESULTS_KEY = "memory-game-results";
+const MAX_RESULTS = 10;
 
 export function loadResults() {
   const raw = localStorage.getItem(RESULTS_KEY);
@@ -6,7 +7,14 @@ export function loadResults() {
 
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter(
+      (item) =>
+        item &&
+        typeof item.moves === "number" &&
+        typeof item.date === "string"
+    );
   } catch {
     return [];
   }
@@ -18,12 +26,24 @@ export function saveResults(results) {
 
 export function addResult(moves) {
   const results = loadResults();
-  results.push(moves);
 
-  // храним только 10 лучших (отсортированных по возрастанию)
-  results.sort((a, b) => a - b);
-  const trimmed = results.slice(0, 10);
+  const newResult = {
+    moves,
+    date: new Date().toISOString(),
+  };
 
+  results.push(newResult);
+  results.sort(compareResults);
+
+  const trimmed = results.slice(0, MAX_RESULTS);
   saveResults(trimmed);
+
   return trimmed;
+}
+
+function compareResults(a, b) {
+  if (a.moves !== b.moves) {
+    return a.moves - b.moves;
+  }
+  return new Date(a.date) - new Date(b.date);
 }

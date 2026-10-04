@@ -14,18 +14,41 @@ export function openLeaderboardPopup(results) {
     return;
   }
 
-  const list = createElement("ol", "popup__list");
+  const leaderboard = buildLeaderboard(results);
+  openPopup("Таблица лидеров", [leaderboard]);
+}
 
-  results.forEach((moves, index) => {
-    const item = createElement(
-      "li",
-      "popup__list-item",
-      `${index + 1}. ${moves} ходов`
+function buildLeaderboard(results) {
+  const container = createElement("div", "leaderboard");
+
+  const headerRow = createElement("div", "leaderboard__row leaderboard__row--head");
+  headerRow.append(
+    createElement("span", "leaderboard__cell", "Место"),
+    createElement("span", "leaderboard__cell", "Ходы"),
+    createElement("span", "leaderboard__cell", "Дата")
+  );
+
+  container.append(headerRow);
+
+  results.forEach((result, index) => {
+    const row = createElement("div", "leaderboard__row");
+    row.append(
+      createElement("span", "leaderboard__cell", String(index + 1)),
+      createElement("span", "leaderboard__cell", String(result.moves)),
+      createElement("span", "leaderboard__cell", formatDate(result.date))
     );
-    list.append(item);
+    container.append(row);
   });
 
-  openPopup("Таблица лидеров", [list]);
+  return container;
+}
+
+function formatDate(isoString) {
+  const date = new Date(isoString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
 }
 
 export function openPopup(title, bodyNodes = []) {
