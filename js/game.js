@@ -1,5 +1,7 @@
 import { createCard } from "./components/card.js";
 import { playCardFlip } from "./audio.js";
+import { openVictoryPopup } from "./components/popup.js";
+import { addResult } from "./storage.js";
 
 const GAME_BOARD_ID = "game-board";
 const MOVES_COUNTER_ID = "moves-counter";
@@ -107,7 +109,15 @@ function flipCard(card) {
   if (firstImage === secondImage) {
     matchedPairs += 1;
     renderCounters();
-    isLocked = false;
+
+    if (matchedPairs === PAIRS_COUNT) {
+      setTimeout(() => {
+        addResult(moves);
+        openVictoryPopup(moves);
+      }, FLIP_DELAY);
+    } else {
+      isLocked = false;
+    }
   } else {
     setTimeout(() => {
       playCardFlip();
@@ -133,14 +143,14 @@ function revealCard(card) {
   const imageSrc = currentLayout[index];
   const cardBack = card.querySelector(".card__back");
 
-  cardBack.style.setProperty("--card-image", `url("${imageSrc}")`);
+  cardBack.style.backgroundImage = `url("${imageSrc}")`;
   cardBack.dataset.image = imageSrc;
 }
 
 function hideCard(card) {
   const cardBack = card.querySelector(".card__back");
 
-  cardBack.style.removeProperty("--card-image");
+  cardBack.style.backgroundImage = "";
   delete cardBack.dataset.image;
 }
 

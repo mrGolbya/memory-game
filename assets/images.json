@@ -1,10 +1,10 @@
 [
-  { "img": "./assets/images/figure-01.png" },
-  { "img": "./assets/images/figure-02.png" },
-  { "img": "./assets/images/figure-03.png" },
-  { "img": "./assets/images/figure-04.png" },
-  { "img": "./assets/images/figure-05.png" },
-  { "img": "./assets/images/figure-06.png" },
-  { "img": "./assets/images/figure-07.png" },
-  { "img": "./assets/images/figure-08.png" }
+  { "img": "./assets/images/figure-01.jpg" },
+  { "img": "./assets/images/figure-02.jpg" },
+  { "img": "./assets/images/figure-03.jpg" },
+  { "img": "./assets/images/figure-04.jpg" },
+  { "img": "./assets/images/figure-05.jpg" },
+  { "img": "./assets/images/figure-06.jpg" },
+  { "img": "./assets/images/figure-07.jpg" },
+  { "img": "./assets/images/figure-08.jpg" }
 ]

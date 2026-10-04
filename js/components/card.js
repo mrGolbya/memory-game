@@ -10,7 +10,6 @@ export function createCard(index) {
 
   const cardFront = createElement("div", "card__front");
   cardFront.setAttribute("aria-hidden", "true");
-  cardFront.textContent = "?";
 
   const cardBack = createElement("div", "card__back");
 

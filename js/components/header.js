@@ -3,6 +3,8 @@ import { createButton, createSoundButton, createThemeToggle } from "../ui-helper
 import { toggleTheme } from "../theme.js";
 import { playButtonClick, toggleBackgroundMusic, isBackgroundMusicPlaying } from "../audio.js";
 import { renderBoard } from "../game.js";
+import { openLeaderboardPopup } from "./popup.js";
+import { loadResults } from "../storage.js";
 
 export function createHeader() {
   const header = createElement("header", "header");
@@ -23,7 +25,7 @@ export function createHeader() {
 
   leaderboardButton.addEventListener("click", () => {
     playButtonClick();
-    // TODO: открыть попап с таблицей лидеров
+    openLeaderboardPopup(loadResults());
   });
 
   soundButton.addEventListener("click", () => {

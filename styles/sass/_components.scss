@@ -25,6 +25,7 @@
     outline-offset: 0.2rem;
   }
 }
+
 /* Theme toggle */
 
 .theme-toggle {
@@ -49,6 +50,7 @@
     outline-offset: 0.2rem;
   }
 }
+
 .sound-button {
   display: inline-flex;
   align-items: center;
@@ -69,7 +71,6 @@
   animation: sound-bars 1.2s linear infinite;
 }
 
-/* Задержки и высоты — как в эквалайзере */
 .sound-button__bar:nth-child(1) {
   height: 100%;
   animation-delay: 0s;
@@ -113,8 +114,6 @@
   transition: opacity 0.25s, box-shadow 0.3s;
 }
 
-/* Солнце */
-
 .theme-toggle__icon--light {
   background-color: #f5c542;
   box-shadow:
@@ -130,8 +129,6 @@
     0 0 1.2rem rgba(245, 197, 66, 0.4);
 }
 
-/* Луна — серп контрастный к теме */
-
 .theme-toggle__icon--dark {
   background-color: transparent;
   box-shadow: inset -0.5rem 0 0 0 var(--color-text);
@@ -143,8 +140,6 @@
     0 0 0.6rem rgba(123, 47, 247, 0.8),
     0 0 1.2rem rgba(123, 47, 247, 0.5);
 }
-
-/* Активная/неактивная иконка */
 
 [data-theme="light"] .theme-toggle__icon--light {
   opacity: 1;
@@ -161,8 +156,6 @@
 [data-theme="jjk"] .theme-toggle__icon--dark {
   opacity: 1;
 }
-
-/* Hover — подсвечиваем ту иконку, на которую переключимся */
 
 [data-theme="light"] .theme-toggle:hover .theme-toggle__icon--dark {
   opacity: 1;
@@ -187,8 +180,6 @@
     0 0 3rem rgba(255, 215, 110, 0.8);
 }
 
-/* Пилюля в jjk */
-
 [data-theme="jjk"] .theme-toggle {
   background-color: #1a1a2e;
   border-color: rgba(123, 47, 247, 0.5);
@@ -196,6 +187,7 @@
 }
 
 /* Stats */
+
 .stats {
   display: flex;
   align-items: center;
@@ -283,15 +275,43 @@
 }
 
 .card__front {
-  background-color: var(--color-surface-contrast);
+  background:
+    radial-gradient(circle at center, rgba(123, 47, 247, 0.35), transparent 70%),
+    var(--color-surface-contrast);
   color: var(--color-accent);
   border: 0.2rem solid var(--color-accent);
-  box-shadow: 0 0 1rem var(--color-shadow);
+  box-shadow:
+    0 0 1rem var(--color-shadow),
+    inset 0 0 1.5rem rgba(123, 47, 247, 0.4);
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.card__front::before {
+  content: "力";
+  font-family: serif;
+  color: var(--color-accent);
+  text-shadow:
+    0 0 0.6rem rgba(123, 47, 247, 0.9),
+    0 0 1.2rem rgba(123, 47, 247, 0.6);
+}
+
+/* В светлой теме — синий акцент вместо фиолетового */
+
+[data-theme="light"] .card__front {
+  background:
+    radial-gradient(circle at center, rgba(0, 171, 225, 0.25), transparent 70%),
+    var(--color-surface-contrast);
+}
+
+[data-theme="light"] .card__front::before {
+  text-shadow:
+    0 0 0.6rem rgba(0, 171, 225, 0.9),
+    0 0 1.2rem rgba(0, 171, 225, 0.6);
 }
 
 .card__back {
   background-color: var(--color-surface);
-  background-image: var(--card-image, none);
   background-size: cover;
   background-position: center;
   transform: rotateY(180deg);
@@ -348,6 +368,28 @@
   line-height: 1;
 }
 
+/* Popup list (для таблицы лидеров) */
+
+.popup__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.popup__list-item {
+  padding: 0.5rem 0.8rem;
+  background-color: var(--color-background);
+  border-radius: var(--radius-small);
+  font-size: 1.3rem;
+  text-align: left;
+}
+
+/* Responsive */
+
 @media (max-width: 768px) {
   .game-board {
     max-width: 100%;
@@ -390,7 +432,7 @@
   }
 }
 
-@media (max-width: 368px) {
+@media (max-width: 360px) {
   .header__title {
     font-size: 1.6rem;
   }
