@@ -18,6 +18,9 @@ let matchedPairs = 0;
 let moves = 0;
 let isLocked = false;
 
+let closeTimeoutId = null;
+let peekTimeoutId = null;
+
 export async function loadCardImages() {
   const response = await fetch("./assets/images.json");
   if (!response.ok) {
@@ -31,6 +34,8 @@ export async function loadCardImages() {
 export function renderBoard() {
   const board = document.getElementById(GAME_BOARD_ID);
   if (!board) return;
+
+  cancelPendingTimers();
 
   board.replaceChildren();
 
@@ -75,7 +80,9 @@ export function peekAllCards(duration = PEEK_DURATION) {
 
   playCardFlip();
 
-  setTimeout(() => {
+  peekTimeoutId = setTimeout(() => {
+    peekTimeoutId = null;
+
     cards.forEach((card) => {
       card.classList.remove("card--flipped");
       hideCard(card);
@@ -111,15 +118,18 @@ function flipCard(card) {
     renderCounters();
 
     if (matchedPairs === PAIRS_COUNT) {
-      setTimeout(() => {
+      closeTimeoutId = setTimeout(() => {
+        closeTimeoutId = null;
         addResult(moves);
-        openVictoryPopup(moves);
+        openVictoryPopup(moves, renderBoard);
       }, FLIP_DELAY);
     } else {
       isLocked = false;
     }
   } else {
-    setTimeout(() => {
+    closeTimeoutId = setTimeout(() => {
+      closeTimeoutId = null;
+
       playCardFlip();
       [firstCard, secondCard].forEach((c) => {
         c.classList.remove("card--flipped");
@@ -127,6 +137,18 @@ function flipCard(card) {
       });
       isLocked = false;
     }, FLIP_DELAY);
+  }
+}
+
+function cancelPendingTimers() {
+  if (closeTimeoutId !== null) {
+    clearTimeout(closeTimeoutId);
+    closeTimeoutId = null;
+  }
+
+  if (peekTimeoutId !== null) {
+    clearTimeout(peekTimeoutId);
+    peekTimeoutId = null;
   }
 }
 

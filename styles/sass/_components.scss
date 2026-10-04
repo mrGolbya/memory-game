@@ -473,3 +473,25 @@
     padding: 0.35em 0.7em;
   }
 }
+.popup__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.popup__button {
+  min-width: 10rem;
+}
+
+.button--ghost {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+  box-shadow: none;
+}
+
+.button--ghost:hover {
+  background-color: var(--color-background);
+}

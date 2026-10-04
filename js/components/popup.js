@@ -1,10 +1,28 @@
 import { createElement } from "../dom.js";
+import { playButtonClick } from "../audio.js";
 
 let currentPopup = null;
+let onCloseCallback = null;
 
-export function openVictoryPopup(moves) {
+export function openVictoryPopup(moves, onNewGame) {
   const text = createElement("p", "popup__text", `Тебе потребовалось ${moves} ходов`);
-  openPopup("Поздравляю!", [text]);
+
+  const newGameButton = createElement("button", "button popup__button", "Новая игра");
+  newGameButton.type = "button";
+  newGameButton.addEventListener("click", () => {
+    playButtonClick();
+    closePopup();
+    onNewGame();
+  });
+
+  const closeButton = createElement("button", "button button--ghost popup__button", "Закрыть");
+  closeButton.type = "button";
+  closeButton.addEventListener("click", () => {
+    playButtonClick();
+    closePopup();
+  });
+
+  openPopup("Поздравляю!", [text], [newGameButton, closeButton]);
 }
 
 export function openLeaderboardPopup(results) {
@@ -51,7 +69,7 @@ function formatDate(isoString) {
   return `${day}.${month}.${year}`;
 }
 
-export function openPopup(title, bodyNodes = []) {
+export function openPopup(title, bodyNodes = [], actions = []) {
   if (currentPopup) closePopup();
 
   const overlay = createElement("div", "popup popup--open");
@@ -64,28 +82,58 @@ export function openPopup(title, bodyNodes = []) {
   const bodyEl = createElement("div", "popup__body");
   bodyNodes.forEach((node) => bodyEl.append(node));
 
-  const closeButton = createElement("button", "popup__close");
-  closeButton.type = "button";
-  closeButton.setAttribute("aria-label", "Закрыть");
-  closeButton.textContent = "×";
+  container.append(titleEl, bodyEl);
 
-  container.append(titleEl, bodyEl, closeButton);
+  if (actions.length) {
+    const actionsEl = createElement("div", "popup__actions");
+    actions.forEach((action) => actionsEl.append(action));
+    container.append(actionsEl);
+  }
+
+  const closeIcon = createElement("button", "popup__close");
+  closeIcon.type = "button";
+  closeIcon.setAttribute("aria-label", "Закрыть");
+  closeIcon.textContent = "×";
+  closeIcon.addEventListener("click", closePopup);
+
+  container.append(closeIcon);
   overlay.append(container);
 
   overlay.addEventListener("click", (event) => {
     if (event.target === overlay) closePopup();
   });
 
-  closeButton.addEventListener("click", closePopup);
-
   document.body.append(overlay);
   currentPopup = overlay;
+
+  document.documentElement.classList.add("modal-open");
+  document.addEventListener("keydown", handleEscape);
 
   return overlay;
 }
 
 export function closePopup() {
   if (!currentPopup) return;
+
   currentPopup.remove();
   currentPopup = null;
+
+  document.documentElement.classList.remove("modal-open");
+  document.removeEventListener("keydown", handleEscape);
+
+  if (onCloseCallback) {
+    const cb = onCloseCallback;
+    onCloseCallback = null;
+    cb();
+  }
+}
+
+function handleEscape(event) {
+  if (event.key === "Escape") {
+    closePopup();
+  }
+}
+
+export function setOnClose(callback) {
+  onCloseCallback = callback;
 }
