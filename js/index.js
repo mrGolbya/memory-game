@@ -3,6 +3,7 @@ import { createMain } from "./components/main.js";
 import { createFooter } from "./components/footer.js";
 import { initTheme } from "./theme.js";
 import { loadCardImages, renderBoard, setupCardFlip } from "./game.js";
+import { initAudioOnFirstInteraction } from "./audio.js";
 
 initTheme();
 
@@ -17,6 +18,7 @@ async function init() {
     await loadCardImages();
     renderBoard();
     setupCardFlip();
+    initAudioOnFirstInteraction();
   } catch (error) {
     console.error(error);
   }

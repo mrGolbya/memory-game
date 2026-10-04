@@ -1,7 +1,11 @@
 import { createElement } from "../dom.js";
 import { createButton, createSoundButton, createThemeToggle } from "../ui-helpers.js";
 import { toggleTheme } from "../theme.js";
-import { playButtonClick, toggleBackgroundMusic, isBackgroundMusicPlaying } from "../audio.js";
+import {
+  playButtonClick,
+  toggleBackgroundMusic,
+  isBackgroundMusicPlaying,
+} from "../audio.js";
 import { renderBoard } from "../game.js";
 import { openLeaderboardPopup } from "./popup.js";
 import { loadResults } from "../storage.js";
@@ -31,12 +35,15 @@ export function createHeader() {
   soundButton.addEventListener("click", () => {
     playButtonClick();
     toggleBackgroundMusic();
-    updateSoundButton(soundButton);
   });
 
   themeToggle.addEventListener("click", () => {
     playButtonClick();
     toggleTheme();
+  });
+
+  document.addEventListener("musicchange", () => {
+    updateSoundButton(soundButton);
   });
 
   actions.append(newGameButton, leaderboardButton, soundButton, themeToggle);
