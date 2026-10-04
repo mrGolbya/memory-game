@@ -38,3 +38,19 @@ export function createThemeToggle() {
   button.append(sun, moon);
   return button;
 }
+export function createSoundButton() {
+  const button = createElement("button", "button header__button sound-button");
+  button.type = "button";
+  button.id = "sound-button";
+  button.setAttribute("aria-label", "Звук");
+  button.setAttribute("aria-pressed", "false");
+
+  const bars = Array.from({ length: 5 }, () => {
+    const bar = createElement("span", "sound-button__bar paused");
+    bar.setAttribute("aria-hidden", "true");
+    return bar;
+  });
+
+  button.append(...bars);
+  return button;
+}

@@ -1,11 +1,7 @@
 import { createElement } from "../dom.js";
-import { createButton, createThemeToggle } from "../ui-helpers.js";
+import { createButton, createSoundButton, createThemeToggle } from "../ui-helpers.js";
 import { toggleTheme } from "../theme.js";
-import {
-  playButtonClick,
-  toggleBackgroundMusic,
-  isBackgroundMusicPlaying,
-} from "../audio.js";
+import { playButtonClick, toggleBackgroundMusic, isBackgroundMusicPlaying } from "../audio.js";
 
 export function createHeader() {
   const header = createElement("header", "header");
@@ -16,15 +12,13 @@ export function createHeader() {
 
   const newGameButton = createButton("new-game-button", "Новая игра", "header__button");
   const leaderboardButton = createButton("leaderboard-button", "Таблица лидеров", "header__button");
-  const soundButton = createButton("sound-button", "Звук", "header__button sound-button");
-
+  const soundButton = createSoundButton();
   const themeToggle = createThemeToggle();
 
-  // Обработчики
   soundButton.addEventListener("click", () => {
     playButtonClick();
     toggleBackgroundMusic();
-    updateSoundButtonState(soundButton);
+    updateSoundButton(soundButton);
   });
 
   themeToggle.addEventListener("click", toggleTheme);
@@ -36,8 +30,13 @@ export function createHeader() {
   return header;
 }
 
-function updateSoundButtonState(button) {
+function updateSoundButton(button) {
   const isPlaying = isBackgroundMusicPlaying();
-  button.classList.toggle("sound-button--active", isPlaying);
+  const bars = button.querySelectorAll(".sound-button__bar");
+
+  bars.forEach((bar) => {
+    bar.classList.toggle("paused", !isPlaying);
+  });
+
   button.setAttribute("aria-pressed", String(isPlaying));
 }
