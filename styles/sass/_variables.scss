@@ -1,0 +1,29 @@
+:root,
+[data-theme="light"] {
+  --color-background: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-surface-contrast: #161f6d;
+  --color-text: #161f6d;
+  --color-text-inverse: #ffffff;
+  --color-accent: #00abe1;
+  --color-accent-hover: #0090bf;
+  --color-border: #dcdcdc;
+  --color-shadow: rgba(0, 0, 0, 0.15);
+
+  --radius-small: 0.6rem;
+  --radius-medium: 1.2rem;
+
+  --font-family-base: "Luckiest Guy", cursive, sans-serif;
+}
+
+[data-theme="jjk"] {
+  --color-background: #0a0a12;
+  --color-surface: #151520;
+  --color-surface-contrast: #1f1f2e;
+  --color-text: #e8e8f0;
+  --color-text-inverse: #e8e8f0;
+  --color-accent: #7b2ff7;
+  --color-accent-hover: #9d4eff;
+  --color-border: #2a2a3e;
+  --color-shadow: rgba(123, 47, 247, 0.4);
+}

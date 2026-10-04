@@ -22,3 +22,19 @@ export function createStat(valueId, labelText) {
   stat.append(value, label);
   return stat;
 }
+// Кнопка для переключения темы с иконками солнца и луны.
+export function createThemeToggle() {
+  const button = createElement("button", "theme-toggle", "");
+  button.type = "button";
+  button.id = "theme-toggle";
+  button.setAttribute("aria-label", "Переключить тему");
+
+  const sun = createElement("span", "theme-toggle__icon theme-toggle__icon--light");
+  sun.setAttribute("aria-hidden", "true");
+
+  const moon = createElement("span", "theme-toggle__icon theme-toggle__icon--dark");
+  moon.setAttribute("aria-hidden", "true");
+
+  button.append(sun, moon);
+  return button;
+}

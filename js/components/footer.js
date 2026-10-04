@@ -2,7 +2,7 @@ import { createElement } from "../dom.js";
 
 export function createFooter() {
   const footer = createElement("footer", "footer");
-  const container = createElement("div", "footer__container");
+  const container = createElement("div", "container footer__container");
 
   const copyright = createElement("p", "footer__copyright", "© 2026 Memory Game");
 

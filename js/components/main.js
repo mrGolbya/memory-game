@@ -3,7 +3,7 @@ import { createStat } from "../ui-helpers.js";
 
 export function createMain() {
   const main = createElement("main", "main");
-  const container = createElement("div", "main__container");
+  const container = createElement("div", "container main__container");
 
   const stats = createElement("div", "stats");
   stats.append(
