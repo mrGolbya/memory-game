@@ -403,6 +403,16 @@ body {
   outline-offset: 0.2rem;
 }
 
+.button--ghost {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+  box-shadow: none;
+}
+.button--ghost:hover {
+  background-color: var(--color-background);
+}
+
 /* Theme toggle */
 .theme-toggle {
   position: relative;
@@ -621,13 +631,12 @@ body {
 }
 
 .card__front::before {
-  content: "力";
+  content: "術";
   font-family: serif;
   color: var(--color-accent);
   text-shadow: 0 0 0.6rem rgba(123, 47, 247, 0.9), 0 0 1.2rem rgba(123, 47, 247, 0.6);
 }
 
-/* В светлой теме — синий акцент вместо фиолетового */
 [data-theme=light] .card__front {
   background: radial-gradient(circle at center, rgba(0, 171, 225, 0.25), transparent 70%), var(--color-surface-contrast);
 }
@@ -679,38 +688,19 @@ body {
   font-size: 1.4rem;
 }
 
-.popup__close {
-  position: absolute;
-  top: -1.2rem;
-  right: -1.2rem;
-  width: 3rem;
-  height: 3rem;
-  border: 0.2rem solid var(--color-text);
-  border-radius: 50%;
-  background-color: var(--color-surface);
-  color: var(--color-text);
-  font-size: 1.6rem;
-  line-height: 1;
-}
-
-/* Popup list (для таблицы лидеров) */
-.popup__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.popup__actions {
   display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
 }
 
-.popup__list-item {
-  padding: 0.5rem 0.8rem;
-  background-color: var(--color-background);
-  border-radius: var(--radius-small);
-  font-size: 1.3rem;
-  text-align: left;
+.popup__button {
+  min-width: 10rem;
 }
 
+/* Leaderboard */
 .leaderboard {
   display: flex;
   flex-direction: column;
@@ -787,29 +777,6 @@ body {
     padding: 0.35em 0.7em;
   }
 }
-.popup__actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.popup__button {
-  min-width: 10rem;
-}
-
-.button--ghost {
-  background-color: transparent;
-  color: var(--color-text);
-  border-color: var(--color-border);
-  box-shadow: none;
-}
-
-.button--ghost:hover {
-  background-color: var(--color-background);
-}
-
 .hidden {
   display: none;
 }

@@ -26,14 +26,21 @@ export function openVictoryPopup(moves, onNewGame) {
 }
 
 export function openLeaderboardPopup(results) {
+  const closeButton = createElement("button", "button button--ghost popup__button", "Закрыть");
+  closeButton.type = "button";
+  closeButton.addEventListener("click", () => {
+    playButtonClick();
+    closePopup();
+  });
+
   if (!results.length) {
     const empty = createElement("p", "popup__text", "Пока нет результатов");
-    openPopup("Таблица лидеров", [empty]);
+    openPopup("Таблица лидеров", [empty], [closeButton]);
     return;
   }
 
   const leaderboard = buildLeaderboard(results);
-  openPopup("Таблица лидеров", [leaderboard]);
+  openPopup("Таблица лидеров", [leaderboard], [closeButton]);
 }
 
 function buildLeaderboard(results) {
@@ -90,13 +97,6 @@ export function openPopup(title, bodyNodes = [], actions = []) {
     container.append(actionsEl);
   }
 
-  const closeIcon = createElement("button", "popup__close");
-  closeIcon.type = "button";
-  closeIcon.setAttribute("aria-label", "Закрыть");
-  closeIcon.textContent = "×";
-  closeIcon.addEventListener("click", closePopup);
-
-  container.append(closeIcon);
   overlay.append(container);
 
   overlay.addEventListener("click", (event) => {
