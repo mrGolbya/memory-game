@@ -1,11 +1,16 @@
 import { createCard } from "./components/card.js";
+import { playCardFlip } from "./audio.js";
 
 const GAME_BOARD_ID = "game-board";
 const PAIRS_COUNT = 8;
+const FLIP_DELAY = 700;
 
 let cardImages = [];
 let currentLayout = [];
 
+let openCards = [];
+let matchedPairs = 0;
+let isLocked = false;
 
 export async function loadCardImages() {
   const response = await fetch("./assets/images.json");
@@ -28,9 +33,57 @@ export function renderBoard() {
 
   const cards = currentLayout.map((_, index) => createCard(index));
   board.append(...cards);
+
+  openCards = [];
+  matchedPairs = 0;
+  isLocked = false;
 }
 
-export function revealCard(card) {
+export function setupCardFlip() {
+  const board = document.getElementById(GAME_BOARD_ID);
+  if (!board) return;
+
+  board.addEventListener("click", (event) => {
+    const card = event.target.closest(".card");
+    if (card) flipCard(card);
+  });
+}
+
+function flipCard(card) {
+  if (isLocked) return;
+  if (card.classList.contains("card--flipped")) return;
+
+  card.classList.add("card--flipped");
+  revealCard(card);
+  playCardFlip();
+
+  openCards.push(card);
+
+  if (openCards.length < 2) return;
+
+  isLocked = true;
+  const [firstCard, secondCard] = openCards;
+  openCards = [];
+
+  const firstImage = firstCard.querySelector(".card__back").dataset.image;
+  const secondImage = secondCard.querySelector(".card__back").dataset.image;
+
+  if (firstImage === secondImage) {
+  matchedPairs += 1;
+  isLocked = false;
+    } else {
+  setTimeout(() => {
+    playCardFlip();// ← добавить: звук при закрытии
+    [firstCard, secondCard].forEach((c) => {
+      c.classList.remove("card--flipped");
+      hideCard(c);
+    });
+    isLocked = false;
+  }, FLIP_DELAY);
+}
+}
+
+function revealCard(card) {
   const index = Number(card.dataset.index);
   const imageSrc = currentLayout[index];
   const cardBack = card.querySelector(".card__back");
@@ -39,7 +92,7 @@ export function revealCard(card) {
   cardBack.dataset.image = imageSrc;
 }
 
-export function hideCard(card) {
+function hideCard(card) {
   const cardBack = card.querySelector(".card__back");
 
   cardBack.style.removeProperty("--card-image");

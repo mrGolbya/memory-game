@@ -2,7 +2,7 @@ import { createHeader } from "./components/header.js";
 import { createMain } from "./components/main.js";
 import { createFooter } from "./components/footer.js";
 import { initTheme } from "./theme.js";
-import { loadCardImages, renderBoard } from "./game.js";
+import { loadCardImages, renderBoard, setupCardFlip } from "./game.js";
 
 initTheme();
 
@@ -16,6 +16,7 @@ async function init() {
   try {
     await loadCardImages();
     renderBoard();
+    setupCardFlip();
   } catch (error) {
     console.error(error);
   }
