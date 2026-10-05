@@ -5,9 +5,9 @@ let currentPopup = null;
 let onCloseCallback = null;
 
 export function openVictoryPopup(moves, onNewGame) {
-  const text = createElement("p", "popup__text", `Тебе потребовалось ${moves} ходов`);
+  const text = createElement("p", "popup__text", `It took you ${moves} moves`);
 
-  const newGameButton = createElement("button", "button popup__button", "Новая игра");
+  const newGameButton = createElement("button", "button popup__button", "new game");
   newGameButton.type = "button";
   newGameButton.addEventListener("click", () => {
     playButtonClick();
@@ -15,18 +15,18 @@ export function openVictoryPopup(moves, onNewGame) {
     onNewGame();
   });
 
-  const closeButton = createElement("button", "button button--ghost popup__button", "Закрыть");
+  const closeButton = createElement("button", "button button--ghost popup__button", "Close");
   closeButton.type = "button";
   closeButton.addEventListener("click", () => {
     playButtonClick();
     closePopup();
   });
 
-  openPopup("Поздравляю!", [text], [newGameButton, closeButton]);
+  openPopup("Congratulations!", [text], [newGameButton, closeButton]);
 }
 
 export function openLeaderboardPopup(results) {
-  const closeButton = createElement("button", "button button--ghost popup__button", "Закрыть");
+  const closeButton = createElement("button", "button button--ghost popup__button", "Close");
   closeButton.type = "button";
   closeButton.addEventListener("click", () => {
     playButtonClick();
@@ -34,13 +34,13 @@ export function openLeaderboardPopup(results) {
   });
 
   if (!results.length) {
-    const empty = createElement("p", "popup__text", "Пока нет результатов");
-    openPopup("Таблица лидеров", [empty], [closeButton]);
+    const empty = createElement("p", "popup__text", "No results yet");
+    openPopup("leaderboard", [empty], [closeButton]);
     return;
   }
 
   const leaderboard = buildLeaderboard(results);
-  openPopup("Таблица лидеров", [leaderboard], [closeButton]);
+  openPopup("leaderboard", [leaderboard], [closeButton]);
 }
 
 function buildLeaderboard(results) {
@@ -48,9 +48,9 @@ function buildLeaderboard(results) {
 
   const headerRow = createElement("div", "leaderboard__row leaderboard__row--head");
   headerRow.append(
-    createElement("span", "leaderboard__cell", "Место"),
-    createElement("span", "leaderboard__cell", "Ходы"),
-    createElement("span", "leaderboard__cell", "Дата")
+    createElement("span", "leaderboard__cell", "Place"),
+    createElement("span", "leaderboard__cell", "moves"),
+    createElement("span", "leaderboard__cell", "Date")
   );
 
   container.append(headerRow);

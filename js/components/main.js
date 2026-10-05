@@ -7,8 +7,8 @@ export function createMain() {
 
   const stats = createElement("div", "stats");
   stats.append(
-    createStat("moves-counter", "Ходы"),
-    createStat("pairs-counter", "Найдено пар")
+    createStat("moves-counter", "moves"),
+    createStat("pairs-counter", "Pairs found")
   );
 
   const gameBoard = createElement("div", "game-board");

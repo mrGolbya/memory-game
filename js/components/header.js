@@ -17,8 +17,8 @@ export function createHeader() {
   const heading = createElement("h1", "header__title", "Memory Game");
   const actions = createElement("div", "header__actions");
 
-  const newGameButton = createButton("new-game-button", "Новая игра", "header__button");
-  const leaderboardButton = createButton("leaderboard-button", "Таблица лидеров", "header__button");
+  const newGameButton = createButton("new-game-button", "new game", "header__button");
+  const leaderboardButton = createButton("leaderboard-button", "leaderboard", "header__button");
   const soundButton = createSoundButton();
   const themeToggle = createThemeToggle();
 

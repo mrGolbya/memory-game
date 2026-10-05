@@ -157,7 +157,7 @@ function renderCounters() {
   const pairsEl = document.getElementById(PAIRS_COUNTER_ID);
 
   if (movesEl) movesEl.textContent = String(moves);
-  if (pairsEl) pairsEl.textContent = `${matchedPairs} из ${PAIRS_COUNT}`;
+  if (pairsEl) pairsEl.textContent = `${matchedPairs} out of ${PAIRS_COUNT}`;
 }
 
 function revealCard(card) {
